@@ -1,24 +1,29 @@
 /// <reference types="@wdio/globals/types" />
-import {config as sharedConfig} from "./wdio.shared.conf.js";
+import { config as sharedConfig } from "./wdio.shared.conf.js";
 
 export const config: WebdriverIO.Config = {
   ...sharedConfig,
 
-  // Target the specific web test files we just moved
+  // Target all web e2e test files
   specs: ["../test/specs/e2e-web/**/*.ts"],
 
-  // Define the browser capabilities for the demo
+  // Keep concurrency at 1 to avoid exhausting trial/plan parallel limits
+  maxInstances: 1,
+
+  // Increase global wait timeout — BrowserStack remote sessions can be slower
+  waitforTimeout: 30000,
+
   capabilities: [
     {
       browserName: "chrome",
       "bstack:options": {
         buildName: "E2E Web - Demo Hub",
-        sessionName: "Web Functional Journey",
-        // These AI features look great on a demo dashboard
+        sessionName: "Self Healing Demo Suite",
         debug: true,
         networkLogs: true,
         consoleLogs: "info",
-      },
+        selfHeal: true,
+      } as any,
     },
   ],
 };
