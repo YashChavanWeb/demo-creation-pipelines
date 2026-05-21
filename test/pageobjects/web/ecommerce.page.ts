@@ -14,6 +14,7 @@ class EcommercePage extends Page {
    * Navigates to the E-commerce app
    */
   public async open() {
+    await browser.maximizeWindow();
     return browser.url("https://ecommercebs.vercel.app/");
   }
 

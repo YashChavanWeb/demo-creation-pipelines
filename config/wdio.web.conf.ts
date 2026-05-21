@@ -10,19 +10,22 @@ export const config: WebdriverIO.Config = {
   // Keep concurrency at 1 to avoid exhausting trial/plan parallel limits
   maxInstances: 1,
 
-  // Increase global wait timeout — BrowserStack remote sessions can be slower
   waitforTimeout: 30000,
 
   capabilities: [
     {
       browserName: "chrome",
+      "goog:chromeOptions": {
+        args: ["--window-size=1920,1080", "--start-maximized"],
+      },
       "bstack:options": {
         buildName: "E2E Web - Demo Hub",
-        sessionName: "Self Healing Demo Suite",
-        debug: true,
-        networkLogs: true,
-        consoleLogs: "info",
+        sessionName: "Web Functional Journey",
         selfHeal: true,
+        debug: true,
+        networkLogs: true,        // Captures all network traffic/HAR logs
+        consoleLogs: "info",      // Captures browser console errors
+        resolution: "1920x1080",  
       } as any,
     },
   ],

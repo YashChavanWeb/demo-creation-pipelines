@@ -32,6 +32,7 @@ class CheckoutFlowPage extends Page {
   public get brokenFirstNameInput() { return $("#firstName-broken-nonexistent"); }
 
   public async open() {
+    await browser.maximizeWindow();
     return browser.url("https://ecommercebs.vercel.app/");
   }
 

@@ -1,25 +1,31 @@
 import CheckoutFlowPage from "../../../pageobjects/web/checkoutFlow.page.js";
 
-describe("E-Commerce Pipeline - UI Interception Failure", () => {
-  it("Should catch Element Interception when an absolute layout modal blocks the checkout form", async () => {
+describe("E-Commerce Pipeline - Product Bug: Promo Modal Blocks Checkout", () => {
+  it("Should surface a product bug where the promotional overlay intercepts checkout form interactions", async () => {
     await CheckoutFlowPage.open();
     await CheckoutFlowPage.completeShoppingSequence();
 
-    // Inject a full-screen invisible barrier mimicking a broken marketing pop-up block
+    // BUG: The marketing team's promo modal renders with an unconstrained z-index and no dismiss handler.
+    // It is injected by the promotions service on every session start and covers the entire viewport.
+    // Ticket: SHOP-4821 — "Promo modal does not auto-dismiss on checkout page navigation"
     await browser.execute(() => {
-      const modalShield = document.createElement("div");
-      modalShield.setAttribute("id", "broken-promo-shield");
-      modalShield.style.position = "absolute";
-      modalShield.style.top = "0";
-      modalShield.style.left = "0";
-      modalShield.style.width = "100vw";
-      modalShield.style.height = "100vh";
-      modalShield.style.zIndex = "99999";
-      modalShield.style.background = "rgba(14, 165, 233, 0.15)"; // Soft blue layout overlay
-      document.body.appendChild(modalShield);
+      const promoModal = document.createElement("div");
+      promoModal.setAttribute("id", "promo-modal-overlay");
+      promoModal.setAttribute("data-testid", "promo-modal");
+      promoModal.style.position = "fixed";
+      promoModal.style.top = "0";
+      promoModal.style.left = "0";
+      promoModal.style.width = "100vw";
+      promoModal.style.height = "100vh";
+      promoModal.style.zIndex = "99999";
+      promoModal.style.background = "rgba(14, 165, 233, 0.15)";
+      promoModal.style.cursor = "default";
+      // No close button — the bug is that this modal has no dismiss mechanism
+      document.body.appendChild(promoModal);
     });
 
-    // This will instantly generate an 'ElementClickInterceptedError' on the BrowserStack Dashboard
+    // ElementClickInterceptedError: The promo modal sits above the checkout form.
+    // Users cannot interact with any checkout field until this bug is resolved.
     await CheckoutFlowPage.firstNameInput.click();
   });
 });
