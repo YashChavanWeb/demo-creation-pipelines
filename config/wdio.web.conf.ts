@@ -17,7 +17,7 @@ export const config: WebdriverIO.Config = {
         // These AI features look great on a demo dashboard
         debug: true,
         networkLogs: true,
-        consoleLogs: "info",
+        consoleLogs: "info"
       },
     },
   ],
