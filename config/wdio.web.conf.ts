@@ -11,6 +11,7 @@ export const config: WebdriverIO.Config = {
   capabilities: [
     {
       browserName: "chrome",
+
       "bstack:options": {
         buildName: "E2E Web - Demo Hub",
         sessionName: "Web Functional Journey",
@@ -18,6 +19,7 @@ export const config: WebdriverIO.Config = {
         debug: true,
         networkLogs: true,
         consoleLogs: "info",
+        //performance: "report"
       },
     },
   ],
