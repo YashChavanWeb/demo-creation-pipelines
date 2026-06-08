@@ -3,11 +3,7 @@ import { config as sharedConfig } from "./wdio.shared.conf.js";
 
 export const config: WebdriverIO.Config = {
   ...sharedConfig,
-  // Both spec folders run in one suite — image-injection and biometrics
-  specs: [
-    "../test/specs/e2e-mobile/android/image-injection/**/*.ts",
-    "../test/specs/e2e-mobile/android/biometrics/**/*.ts",
-  ],
+  specs: ["../test/specs/e2e-mobile/android/biometrics.spec.ts"],
   capabilities: [
     {
       platformName: "android",
@@ -18,10 +14,9 @@ export const config: WebdriverIO.Config = {
       "bstack:options": {
         projectName: "Image Injection Priyansh",
         buildName: "Image Injection Priyansh",
-        sessionName: "Image Injection & Biometrics",
+        sessionName: "Biometric Authentication",
         deviceName: "Samsung Galaxy S23",
         osVersion: "13.0",
-        enableCameraImageInjection: true,
         enableBiometric: true,
         debug: true,
         networkLogs: true,
