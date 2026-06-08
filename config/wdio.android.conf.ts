@@ -12,7 +12,7 @@ export const config: WebdriverIO.Config = {
     [
       "browserstack",
       {
-        app: "bs://c94d623e9070441fff20d8fa05663f0cc9987ff9",
+        app: "bs://340e1932c831859e59114ac4e3e75cf686412d7a",
       },
     ],
   ],
