@@ -46,6 +46,8 @@ const drawerUsername = () => new IgnoreRegion(50, 88, 0, 280);
 const ordersCount = () => new IgnoreRegion(124, 142, 128, 262);
 /** Favourites count label */
 const favouritesCount = () => new IgnoreRegion(124, 142, 128, 262);
+/** Add to cart buttons on all visible product listing cards (full right column) */
+const addToCartBtn = () => new IgnoreRegion(124, 844, 270, 390);
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
 async function percySnap(
@@ -87,12 +89,25 @@ async function isOnHomeScreen(): Promise<boolean> {
  * ~menu exists on many screens (always in DOM), so we cannot use it as a
  * fast-path check — we must always relaunch to avoid false positives.
  */
-async function goHome(): Promise<void> {
-  // Always terminate and relaunch to guarantee clean home state
-  await browser.terminateApp("com.browserstack.demoapppercy");
-  await browser.activateApp("com.browserstack.demoapppercy");
+async function getBundleId(): Promise<string> {
+  try {
+    const caps = await browser.getSession() as Record<string, unknown>;
+    const bundleId = (caps["appium:bundleId"] ?? caps["bundleId"]) as string | undefined;
+    if (bundleId) return bundleId;
+    const appPath = (caps["appium:app"] ?? "") as string;
+    const match = appPath.match(/([a-zA-Z][a-zA-Z0-9._-]+)\.ipa$/);
+    if (match) return match[1];
+  } catch { /* fall through */ }
+  return "com.browserstack.Sample";
+}
 
-  // Dismiss any permission alerts that appear after relaunch
+async function goHome(): Promise<void> {
+  const bundleId = await getBundleId();
+  // Always terminate and relaunch to guarantee clean home state
+  await browser.terminateApp(bundleId);
+  await browser.activateApp(bundleId);
+
+  // Wait for home screen, dismissing any permission alerts along the way
   await browser.waitUntil(
     async () => {
       await dismissAnyAlerts();
@@ -100,6 +115,16 @@ async function goHome(): Promise<void> {
     },
     { timeout: 30000, interval: 1000 }
   );
+
+  // Extra dismiss pass: alerts (e.g. Motion & Fitness) can appear AFTER the
+  // home screen elements are already in the DOM. Give them up to 5 seconds.
+  await browser.waitUntil(
+    async () => {
+      await dismissAnyAlerts();
+      return true;
+    },
+    { timeout: 5000, interval: 500 }
+  ).catch(() => { /* alert window may not appear — that's fine */ });
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -136,18 +161,18 @@ describe("Percy iOS Visual Tests", () => {
     });
 
     it("should capture the Products listing screen", async () => {
-      await percySnap("iOS - Products Listing Screen", "Products Module", [productsCount()]);
+      await percySnap("iOS - Products Listing Screen", "Products Module", [productsCount(), addToCartBtn()]);
     });
 
     it("should capture the Products listing with Filter & Sort visible", async () => {
       await productsPage.filterSortBtn.waitForDisplayed({ timeout: 5000 });
-      await percySnap("iOS - Products Listing With Filter Sort", "Products Module", [productsCount()]);
+      await percySnap("iOS - Products Listing With Filter Sort", "Products Module", [productsCount(), addToCartBtn()]);
     });
 
     it("should capture the Products listing after adding item to cart", async () => {
       await productsPage.addToCart("12");
       await cartPage.navCartBtn.waitForDisplayed({ timeout: 10000 });
-      await percySnap("iOS - Products Listing After Add To Cart", "Products Module", [productsCount()]);
+      await percySnap("iOS - Products Listing After Add To Cart", "Products Module", [productsCount(), addToCartBtn()]);
     });
   });
 

@@ -48,6 +48,8 @@ const drawerUsername = () => new IgnoreRegion(90, 212, 0, 840);
 const ordersCount = () => new IgnoreRegion(270, 327, 384, 696);
 /** Favourites count label */
 const favouritesCount = () => new IgnoreRegion(270, 327, 258, 823);
+/** Add to cart buttons on all visible product listing cards (full right column) */
+const addToCartBtn = () => new IgnoreRegion(378, 2115, 750, 1080);
 
 // ─── Helper ───────────────────────────────────────────────────────────────────
 /**
@@ -144,18 +146,18 @@ describe("Percy Android Visual Tests", () => {
     });
 
     it("should capture the Products listing screen", async () => {
-      await percySnap("Android - Products Listing Screen", "Products Module", [productsCount()]);
+      await percySnap("Android - Products Listing Screen", "Products Module", [productsCount(), addToCartBtn()]);
     });
 
     it("should capture the Products listing with Filter & Sort visible", async () => {
       await productsPage.filterSortBtn.waitForDisplayed({ timeout: 5000 });
-      await percySnap("Android - Products Listing With Filter Sort", "Products Module", [productsCount()]);
+      await percySnap("Android - Products Listing With Filter Sort", "Products Module", [productsCount(), addToCartBtn()]);
     });
 
     it("should capture the Products listing after adding item to cart", async () => {
       await productsPage.addToCart("12");
       await cartPage.navCartBtn.waitForDisplayed({ timeout: 10000 });
-      await percySnap("Android - Products Listing After Add To Cart", "Products Module", [productsCount()]);
+      await percySnap("Android - Products Listing After Add To Cart", "Products Module", [productsCount(), addToCartBtn()]);
     });
   });
 

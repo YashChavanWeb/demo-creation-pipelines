@@ -18,7 +18,7 @@ const cap: IOSCapabilities = {
     networkLogs: true,
     idleTimeout: 300,
   },
-  "appium:app": "bs://5aedc01debe5f84a69dc2ac330fba298d2e8e731",
+  "appium:app": "bs://640ab8f5382e0db48f4438c7630bc478325c5b19",
   "appium:automationName": "XCUITest",
 };
 
