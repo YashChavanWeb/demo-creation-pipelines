@@ -7,25 +7,36 @@ export const config: WebdriverIO.Config = {
   // Target all web e2e test files
   specs: ["../test/specs/e2e-web/**/*.ts"],
 
-  // Keep concurrency at 1 to avoid exhausting trial/plan parallel limits
-  maxInstances: 1,
-
-  waitforTimeout: 30000,
-
   capabilities: [
     {
-      browserName: "chrome",
-      "goog:chromeOptions": {
-        args: ["--window-size=1920,1080", "--start-maximized"],
-      },
-
       "bstack:options": {
+        browserName: "chrome",
+        os: "Windows",
+        osVersion: "10",
         buildName: "E2E Web - Demo Hub",
         sessionName: "Web Functional Journey",
+        aiAuthoring: "true",
         selfHeal: true,
         debug: true,
-        networkLogs: true, // Captures all network traffic/HAR logs
-        consoleLogs: "info", // Captures browser console errors
+        performance: "report",
+        networkLogs: true,
+        consoleLogs: "info",
+        resolution: "1920x1080",
+      } as any,
+    },
+    {
+      "bstack:options": {
+        browserName: "safari",
+        os: "OS X",
+        osVersion: "Sequoia",
+        buildName: "E2E Web - Demo Hub",
+        sessionName: "Web Functional Journey - Mac",
+        aiAuthoring: "true",
+        selfHeal: true,
+        debug: true,
+        performance: "report",
+        networkLogs: true,
+        consoleLogs: "info",
         resolution: "1920x1080",
       } as any,
     },
