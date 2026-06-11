@@ -8,21 +8,21 @@ export const config: WebdriverIO.Config = {
     [
       "browserstack",
       {
-        app: "bs://c94d623e9070441fff20d8fa05663f0cc9987ff9",
+        app: "./test/resources/browserstack-demoapp.apk",
       },
     ],
   ],
   capabilities: [
     {
-      platformName: "android",
       "bstack:options": {
+        platformName: "android",
         buildName: "E2E Android - Demo Hub",
         sessionName: "Android Functional Journey",
         deviceName: "Samsung Galaxy S23",
         osVersion: "13.0",
         debug: true,
-        networkLogs: true,        // Captures all network traffic/HAR logs
-        consoleLogs: "info",      // Captures browser console errors
+        networkLogs: true,
+        consoleLogs: "info",
         appiumVersion: "2.0.0",
       },
     },
