@@ -9,9 +9,7 @@
     "wdio:web": "wdio run config/wdio.web.conf.ts",
     "wdio:android": "wdio run config/wdio.android.conf.ts",
     "wdio:ios": "wdio run config/wdio.ios.conf.ts",
-    "percy:web": "percy exec -- wdio run config/wdio.web.conf.ts --spec test/specs/percy-web/**/*.ts",
-    "wdio:cross-browser-agent": "wdio run config/wdio.cross-browser-agent.conf.ts",
-    "wdio:image-injection": "wdio run config/wdio.image-injection.conf.ts"
+    "percy:web": "percy exec -- wdio run config/wdio.web.conf.ts --spec test/specs/percy-web/**/*.ts"
   },
   "keywords": [],
   "author": "",
