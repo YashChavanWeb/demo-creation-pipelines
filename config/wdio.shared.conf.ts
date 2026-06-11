@@ -4,9 +4,9 @@ export const config: WebdriverIO.Config = {
 
   capabilities: [],
 
-  services: ["browserstack"],
+  services: [["browserstack", {}]],
 
-  maxInstances: 1,
+  maxInstances: 10,
   logLevel: "info",
   bail: 0,
   waitforTimeout: 30000,
