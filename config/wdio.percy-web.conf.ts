@@ -1,5 +1,5 @@
 /// <reference types="@wdio/globals/types" />
-import { config as sharedConfig } from "./wdio.shared.conf.js";
+import {config as sharedConfig} from "./wdio.shared.conf.js";
 
 export const config: WebdriverIO.Config = {
   ...sharedConfig,
@@ -8,14 +8,20 @@ export const config: WebdriverIO.Config = {
 
   capabilities: [
     {
-      browserName: "chrome",
       "bstack:options": {
-        buildName: "Percy Web Visual - FashionStack",
-        sessionName: "Web Percy Visual Journey",
+        browserName: "chrome",
+        os: "Windows",
+        osVersion: "10",
+        buildName: "Percy Web - Demo Hub",
+        sessionName: "Web Functional Journey",
+        aiAuthoring: "true",
+        selfHeal: true,
         debug: true,
+        performance: "report",
         networkLogs: true,
         consoleLogs: "info",
-      } as unknown as WebdriverIO.Capabilities,
+        resolution: "1920x1080",
+      } as any,
     },
   ],
 
