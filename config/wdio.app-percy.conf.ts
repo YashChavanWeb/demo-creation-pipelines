@@ -1,5 +1,5 @@
 /// <reference types="@wdio/globals/types" />
-import {config as sharedConfig} from "./wdio.shared.conf.js";
+import {config as sharedConfig} from "./wdio.shared.conf.ts";
 
 // Shared BrowserStack options for the unified build
 const baseBstackOptions = {
