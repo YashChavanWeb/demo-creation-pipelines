@@ -7,10 +7,6 @@ export const config: WebdriverIO.Config = {
   // Target all web e2e test files
   specs: ["../test/specs/e2e-web/**/*.ts"],
 
-  maxInstances: 10,
-
-  waitforTimeout: 30000,
-
   capabilities: [
     {
       "bstack:options": {
