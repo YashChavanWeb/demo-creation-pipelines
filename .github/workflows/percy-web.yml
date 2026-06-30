@@ -1,0 +1,67 @@
+name: Percy Web Visual Testing
+
+on:
+  workflow_dispatch:
+    inputs:
+      percy_token:
+        description: "Percy Token (leave blank to use stored secret)"
+        required: false
+        type: string
+      bs_username:
+        description: "BrowserStack Username"
+        required: true
+        type: string
+      bs_access_key:
+        description: "BrowserStack Access Key"
+        required: true
+        type: string
+      build_comparison:
+        description: "Build Comparison"
+        required: false
+        type: boolean
+        default: false
+      figma_comparison:
+        description: "Figma Comparison"
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  percy-web-tests:
+    name: Run Percy Web Visual Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "18"
+          cache: "npm"
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Create and Push Branch
+        run: |
+          BRANCH_NAME="changed_${{ github.actor }}"
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
+          git checkout -b "$BRANCH_NAME" 2>/dev/null || git checkout "$BRANCH_NAME"
+          echo "Percy run triggered by ${{ github.actor }} at $(date)" >> percy-run.log
+          git add percy-run.log
+          git commit -m "chore: percy run by ${{ github.actor }}" --allow-empty
+          git push origin "$BRANCH_NAME" --force
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Run Percy Web Visual Tests
+        run: npm run percy:web
+        env:
+          PERCY_TOKEN: ${{ github.event.inputs.percy_token || secrets.PERCY_TOKEN }}
+          BROWSERSTACK_USERNAME: ${{ github.event.inputs.bs_username }}
+          BROWSERSTACK_ACCESS_KEY: ${{ github.event.inputs.bs_access_key }}
+          BUILD_COMPARISON: ${{ github.event.inputs.build_comparison }}
+          FIGMA_COMPARISON: ${{ github.event.inputs.figma_comparison }}

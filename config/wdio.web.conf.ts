@@ -22,6 +22,7 @@ export const config: WebdriverIO.Config = {
         networkLogs: true,
         consoleLogs: "info",
         resolution: "1920x1080",
+        
       } as any,
     },
     {
