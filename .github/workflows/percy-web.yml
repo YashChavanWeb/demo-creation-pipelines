@@ -60,7 +60,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run Percy Web Visual Tests
-        run: npm run wdio:percy
+        run: npx percy exec -- wdio run config/wdio.percy-web.conf.ts
         env:
           PERCY_TOKEN: ${{ github.event.inputs.percy_token || secrets.PERCY_TOKEN }}
           BROWSERSTACK_USERNAME: ${{ github.event.inputs.bs_username }}
