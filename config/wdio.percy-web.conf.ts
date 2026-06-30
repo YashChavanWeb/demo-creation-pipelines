@@ -18,6 +18,9 @@ export const config: WebdriverIO.Config = {
       {
         browserstackLocal: false,
         percy: true,
+        testObservabilityOptions: {
+          buildTag: ["demo", "18.22.0", "yash-test"],
+        },
       },
     ],
   ],

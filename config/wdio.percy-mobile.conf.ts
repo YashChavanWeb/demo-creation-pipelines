@@ -32,6 +32,7 @@ export const config: WebdriverIO.Config = {
         debug: true,
         networkLogs: true,
         appiumVersion: "2.0.0",
+        
       },
     },
     {

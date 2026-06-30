@@ -29,3 +29,7 @@ BROWSERSTACK_USERNAME=$G2_BROWSERSTACK_USERNAME BROWSERSTACK_ACCESS_KEY=$G2_BROW
 ```bash
 npx percy exec -- npx wdio config/wdio.percy-mobile.conf.ts
 ```
+
+```bash
+npx percy exec -- npx wdio run config/wdio.percy-web.conf.ts
+```
