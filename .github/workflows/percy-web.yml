@@ -30,6 +30,8 @@ jobs:
   percy-web-tests:
     name: Run Percy Web Visual Tests
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
     steps:
       - name: Checkout Repository
