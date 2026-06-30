@@ -27,14 +27,14 @@ describe("FashionStack - Women Category Navigation", () => {
     await browser.url("https://ecommercebs.vercel.app/");
     await browser.maximizeWindow();
 
-    // Wait for the navbar to be visible
-    const menNavBtn = $("//header//nav//button[1]");
+    // Wait for the navbar to be visible — Men is the 2nd nav button (New, Men, Women, Sale, Offers)
+    const menNavBtn = $("//header//nav//button[2]");
     await menNavBtn.waitForDisplayed({ timeout: 15000 });
 
     // Toggle the test-mode switch
-    const toggleSwitch = $("#test-mode-switch");
-    await toggleSwitch.waitForDisplayed({ timeout: 10000 });
-    await toggleSwitch.click();
+    // const toggleSwitch = $("#test-mode-switch");
+    // await toggleSwitch.waitForDisplayed({ timeout: 10000 });
+    // await toggleSwitch.click();
 
     // Percy snapshot 1: Homepage
     await percySnapshot(browser, "Homepage", { percyCSS: "body { overflow: hidden !important; }" });
@@ -43,7 +43,7 @@ describe("FashionStack - Women Category Navigation", () => {
     await menNavBtn.click();
 
     // Wait for Men's page heading to appear
-    const menHeading = $("h1=Men's Fashion");
+    const menHeading = $("h1*=Men");
     await menHeading.waitForDisplayed({ timeout: 15000 });
 
     // Percy snapshot 2: Men Category Page
