@@ -28,13 +28,13 @@ describe("FashionStack - Women Category Navigation", () => {
     await browser.maximizeWindow();
 
     // Wait for the navbar to be visible
-    const menNavBtn = $("//header//nav//button[2]");
+    const menNavBtn = $("//header//nav//button[1]");
     await menNavBtn.waitForDisplayed({ timeout: 15000 });
 
     // Toggle the test-mode switch
-    // const toggleSwitch = $("#test-mode-switch");
-    // await toggleSwitch.waitForDisplayed({ timeout: 10000 });
-    // await toggleSwitch.click();
+    const toggleSwitch = $("#test-mode-switch");
+    await toggleSwitch.waitForDisplayed({ timeout: 10000 });
+    await toggleSwitch.click();
 
     // Percy snapshot 1: Homepage
     await percySnapshot(browser, "Homepage", { percyCSS: "body { overflow: hidden !important; }" });
